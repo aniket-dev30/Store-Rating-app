@@ -1,57 +1,111 @@
-# StoreRate — Full Stack Rating Platform
+# StoreRate — Store Rating Platform
 
-A full-stack web application for rating stores, built with:
-- **Backend**: Express.js + PostgreSQL
-- **Frontend**: React.js
+A full-stack web application where users can submit ratings for registered stores.
+
+🔗 **Repository:** https://github.com/aniket-dev30/Store-Rating-app
 
 ---
 
-## 📋 Prerequisites
+## 🛠️ Tech Stack
 
-Make sure you have installed:
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React.js |
+| Backend | Express.js (Node.js) |
+| Database | PostgreSQL |
+| Auth | JWT + bcrypt |
+
+---
+
+## 👤 User Roles
+
+| Role | Description |
+|------|-------------|
+| **Admin** | Manages users & stores, views platform stats |
+| **Normal User** | Browses stores, submits & modifies ratings |
+| **Store Owner** | Views their store's ratings & average score |
+
+---
+
+## ✨ Features
+
+### System Administrator
+- Dashboard with total users, stores, and ratings count
+- Add new users (admin, normal user, store owner)
+- Add new stores and assign store owners
+- View & filter users by Name, Email, Address, Role
+- View & filter stores by Name, Email, Address
+- Sortable tables (ascending/descending)
+- View detailed user profiles
+
+### Normal User
+- Register & login
+- Browse all registered stores
+- Search stores by Name and Address
+- Submit ratings (1–5 stars) for any store
+- Modify previously submitted ratings
+- Update password
+
+### Store Owner
+- Login to dashboard
+- View list of users who rated their store
+- See average rating of their store
+- Update password
+
+---
+
+## 📋 Form Validations
+
+| Field | Rule |
+|-------|------|
+| Name | 2–60 characters |
+| Email | Standard email format |
+| Password | 8–16 chars, at least 1 uppercase, 1 special character |
+| Address | Max 400 characters |
+| Rating | Integer between 1 and 5 |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
 - [Node.js](https://nodejs.org/) v16+
 - [PostgreSQL](https://www.postgresql.org/) v13+
-- npm v8+
+- [pgAdmin](https://www.pgadmin.org/) (recommended)
 
 ---
 
-## 🗄️ Database Setup
-
-### 1. Create the database
-
-Open your PostgreSQL shell (`psql`) and run:
-
-```sql
-CREATE DATABASE store_rating_db;
-```
-
-### 2. Run the schema
+### 1. Clone the Repository
 
 ```bash
-psql -U postgres -d store_rating_db -f backend/src/config/schema.sql
+git clone https://github.com/aniket-dev30/Store-Rating-app.git
+cd Store-Rating-app
 ```
-
-> This creates all tables, indexes, triggers, and the default admin user.
-
-**Default Admin Credentials:**
-- Email: `admin@storerating.com`
-- Password: `Admin@1234`
 
 ---
 
-## ⚙️ Backend Setup
+### 2. Database Setup (pgAdmin)
+
+1. Open **pgAdmin** and connect to your server
+2. Right-click **Databases** → **Create** → **Database**
+3. Name it: `store_rating_db` → click **Save**
+4. Click on `store_rating_db` → open **Query Tool**
+5. Click the folder icon → open `backend/src/config/schema.sql`
+6. Press **F5** to execute
+
+This creates all tables and seeds the default admin user.
+
+---
+
+### 3. Backend Setup
 
 ```bash
 cd backend
-
-# Install dependencies
 npm install
-
-# Create environment file
 cp .env.example .env
 ```
 
-Edit `.env` and fill in your database credentials:
+Edit `backend/.env`:
 
 ```env
 PORT=5000
@@ -59,38 +113,33 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=store_rating_db
 DB_USER=postgres
-DB_PASSWORD=your_actual_password
-JWT_SECRET=change_this_to_a_long_random_string
+DB_PASSWORD=your_postgres_password
+JWT_SECRET=StoreRateSecret@123
 JWT_EXPIRES_IN=7d
 ```
+
+> If PostgreSQL has no password set, leave `DB_PASSWORD=` blank.
 
 Start the backend:
 
 ```bash
-# Development (with auto-reload)
 npm run dev
-
-# Production
-npm start
 ```
 
 Backend runs at: **http://localhost:5000**
 
 ---
 
-## 🎨 Frontend Setup
+### 4. Frontend Setup
 
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Create environment file
 cp .env.example .env
 ```
 
-The `.env` file should contain:
+`frontend/.env` should contain:
+
 ```env
 REACT_APP_API_URL=http://localhost:5000/api
 ```
@@ -105,51 +154,74 @@ Frontend runs at: **http://localhost:3000**
 
 ---
 
-## 🚀 Quick Start (Both at once)
+## 🔐 Default Admin Credentials
 
-Open two terminal windows:
+| Field | Value |
+|-------|-------|
+| Email | admin@storerating.com |
+| Password | Admin@1234 |
 
-**Terminal 1 — Backend:**
-```bash
-cd backend && npm install && npm run dev
+> Please change the admin password after first login.
+
+---
+
+## 📁 Project Structure
+
 ```
-
-**Terminal 2 — Frontend:**
-```bash
-cd frontend && npm install && npm start
+Store-Rating-app/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── database.js        # PostgreSQL connection
+│   │   │   └── schema.sql         # Database schema & seed
+│   │   ├── controllers/
+│   │   │   ├── authController.js
+│   │   │   ├── adminController.js
+│   │   │   ├── storeController.js
+│   │   │   └── ownerController.js
+│   │   ├── middleware/
+│   │   │   ├── auth.js            # JWT authentication
+│   │   │   └── validate.js        # Input validation
+│   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   ├── admin.js
+│   │   │   ├── stores.js
+│   │   │   └── owner.js
+│   │   └── index.js               # Express entry point
+│   ├── .env.example
+│   └── package.json
+│
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── context/
+│   │   │   └── AuthContext.js     # Auth state management
+│   │   ├── pages/
+│   │   │   ├── LoginPage.js
+│   │   │   ├── RegisterPage.js
+│   │   │   ├── ChangePassword.js
+│   │   │   ├── admin/
+│   │   │   │   ├── AdminDashboard.js
+│   │   │   │   ├── AdminUsers.js
+│   │   │   │   └── AdminStores.js
+│   │   │   ├── user/
+│   │   │   │   └── UserDashboard.js
+│   │   │   └── owner/
+│   │   │       └── OwnerDashboard.js
+│   │   ├── components/
+│   │   │   └── common/
+│   │   │       └── Layout.js      # Sidebar layout
+│   │   ├── utils/
+│   │   │   └── api.js             # Axios instance
+│   │   ├── App.js                 # Routes & role redirects
+│   │   └── index.css              # Global styles
+│   ├── .env.example
+│   └── package.json
+│
+├── .gitignore
+└── README.md
 ```
-
-Then open **http://localhost:3000** in your browser.
-
----
-
-## 👤 User Roles
-
-| Role | Access |
-|------|--------|
-| **Admin** | Dashboard stats, manage users & stores |
-| **Normal User** | Browse stores, submit/modify ratings |
-| **Store Owner** | View store performance & ratings received |
-
----
-
-## 🔐 Authentication
-
-- JWT-based authentication
-- Tokens stored in localStorage
-- Role-based route protection
-
----
-
-## 📝 Form Validation Rules
-
-| Field | Rule |
-|-------|------|
-| Name | 20–60 characters |
-| Email | Standard email format |
-| Password | 8–16 chars, ≥1 uppercase, ≥1 special character |
-| Address | Max 400 characters |
-| Rating | Integer 1–5 |
 
 ---
 
@@ -163,98 +235,41 @@ Then open **http://localhost:3000** in your browser.
 | GET | `/api/auth/me` | Get current user |
 | PATCH | `/api/auth/password` | Update password |
 
-### Admin (requires admin role)
+### Admin *(admin role required)*
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/admin/dashboard` | Get stats |
-| GET | `/api/admin/users` | List all users (filterable) |
-| GET | `/api/admin/users/:id` | Get user details |
+| GET | `/api/admin/dashboard` | Platform stats |
+| GET | `/api/admin/users` | List users (filterable/sortable) |
+| GET | `/api/admin/users/:id` | User details |
 | POST | `/api/admin/users` | Create user |
-| GET | `/api/admin/stores` | List all stores (filterable) |
+| GET | `/api/admin/stores` | List stores (filterable/sortable) |
 | POST | `/api/admin/stores` | Create store |
 
-### Stores (requires user role)
+### Stores *(user role required)*
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/stores` | List stores with user ratings |
-| POST | `/api/stores/:id/ratings` | Submit/update rating |
+| POST | `/api/stores/:id/ratings` | Submit or update rating |
 
-### Store Owner (requires store_owner role)
+### Store Owner *(store_owner role required)*
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/owner/dashboard` | Get store dashboard |
-
----
-
-## 📁 Project Structure
-
-```
-store-rating-app/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   ├── database.js       # PostgreSQL connection
-│   │   │   └── schema.sql        # Database schema
-│   │   ├── controllers/
-│   │   │   ├── authController.js
-│   │   │   ├── adminController.js
-│   │   │   ├── storeController.js
-│   │   │   └── ownerController.js
-│   │   ├── middleware/
-│   │   │   ├── auth.js           # JWT authentication
-│   │   │   └── validate.js       # Input validation
-│   │   ├── routes/
-│   │   │   ├── auth.js
-│   │   │   ├── admin.js
-│   │   │   ├── stores.js
-│   │   │   └── owner.js
-│   │   └── index.js              # Express app entry point
-│   ├── .env.example
-│   └── package.json
-│
-└── frontend/
-    ├── public/
-    │   └── index.html
-    ├── src/
-    │   ├── context/
-    │   │   └── AuthContext.js    # Auth state management
-    │   ├── pages/
-    │   │   ├── LoginPage.js
-    │   │   ├── RegisterPage.js
-    │   │   ├── ChangePassword.js
-    │   │   ├── admin/
-    │   │   │   ├── AdminDashboard.js
-    │   │   │   ├── AdminUsers.js
-    │   │   │   └── AdminStores.js
-    │   │   ├── user/
-    │   │   │   └── UserDashboard.js
-    │   │   └── owner/
-    │   │       └── OwnerDashboard.js
-    │   ├── components/
-    │   │   └── common/
-    │   │       └── Layout.js     # Sidebar layout
-    │   ├── utils/
-    │   │   └── api.js            # Axios instance
-    │   ├── App.js                # Routes & role-based redirects
-    │   ├── index.js
-    │   └── index.css             # Global styles & design system
-    ├── .env.example
-    └── package.json
-```
+| GET | `/api/owner/dashboard` | Store dashboard & ratings |
 
 ---
 
 ## 🐛 Troubleshooting
 
+**401 Unauthorized on login:**
+- Run the schema SQL again to ensure the admin user exists
+- Regenerate the password hash via: `node -e "const bcrypt = require('bcryptjs'); bcrypt.hash('Admin@1234', 10).then(h => console.log(h));"`
+- Update it in the DB: `UPDATE users SET password = '<hash>' WHERE email = 'admin@storerating.com';`
+
 **Cannot connect to database:**
-- Ensure PostgreSQL is running: `pg_ctl status` or check Services
-- Verify credentials in `backend/.env`
-- Make sure `store_rating_db` database exists
+- Ensure PostgreSQL is running
+- Check `DB_NAME`, `DB_USER`, `DB_PASSWORD` in `backend/.env`
+- If no password was set during PostgreSQL install, leave `DB_PASSWORD=` blank
 
 **CORS errors:**
-- Ensure backend is running on port 5000
-- Check that `REACT_APP_API_URL` in frontend `.env` points to the correct backend URL
-
-**Port already in use:**
-- Backend: Change `PORT` in `backend/.env`
-- Frontend: React will prompt to use another port automatically
+- Make sure backend is running on port 5000
+- Verify `REACT_APP_API_URL=http://localhost:5000/api` in `frontend/.env`
