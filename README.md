@@ -164,6 +164,31 @@ Frontend runs at: **http://localhost:3000**
 > Please change the admin password after first login.
 
 ---
+## 📸 Screenshots
+
+### Login Page
+![Login](screenshots/login.png)
+
+### Admin Login
+![Admin Login](screenshots/admin-login.png)
+
+### Admin Dashboard - Users
+![Admin Users](screenshots/admin-users.png)
+
+### Admin Dashboard - Stores
+![Admin Stores](screenshots/admin-stores.png)
+
+### Add User
+![Add User](screenshots/add-user.png)
+
+### Store Listing (Normal User)
+![Store Listing](screenshots/store-listing.png)
+
+### Submit Rating
+![Rating](screenshots/rating.png)
+
+### Store Owner Dashboard
+![Store Owner Dashboard](screenshots/store-owner-dashboard.png)
 
 ## 📁 Project Structure
 
