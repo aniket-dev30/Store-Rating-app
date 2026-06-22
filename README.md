@@ -2,8 +2,6 @@
 
 A full-stack web application where users can submit ratings for registered stores.
 
-🔗 **Repository:** https://github.com/aniket-dev30/Store-Rating-app
-
 ---
 
 ## 🛠️ Tech Stack
