@@ -2,6 +2,8 @@
 
 A full-stack web application where users can submit ratings for registered stores.
 
+Live - https://store-rating-app-k25u.vercel.app
+
 ---
 
 ## 🛠️ Tech Stack
