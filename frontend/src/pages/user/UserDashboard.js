@@ -51,7 +51,6 @@ const UserDashboard = () => {
     } finally { setSubmitting(false); }
   };
 
-  const sortIcon = (field) => sort.field === field ? (sort.order === 'ASC' ? ' ↑' : ' ↓') : '';
 
   return (
     <div>

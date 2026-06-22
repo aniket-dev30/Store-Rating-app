@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
 
-const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,16}$/;
-
+const passwordRegex = /^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,16}$/;
 const initialForm = { name: '', email: '', password: '', address: '', role: 'user' };
 
 const AdminUsers = () => {

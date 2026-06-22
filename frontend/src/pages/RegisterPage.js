@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
-const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,16}$/;
-
+const passwordRegex = /^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,16}$/;
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [form, setForm] = useState({ name: '', email: '', password: '', address: '' });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
